@@ -19,10 +19,21 @@ spec:
         name: cpu
         targetAverageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
     {{- end }}
-    {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
-    - type: Resource
-      resource:
-        name: memory
-        targetAverageUtilization: {{ .Values.autoscaling.targetMemoryUtilizationPercentage }}
+  behavior: 
+    {{- range .Values.autoscaling.scaleDown }}
+    scaleDown:
+      stabilizationWindowSeconds: {{ .stabilizationWindowSeconds }}
+      policies:
+      - type: Percent
+        value: {{ .value }}
+        periodSeconds: {{ .periodSeconds }}
+    {{- end }}
+    {{- range .Values.autoscaling.scaleUp }}
+    scaleUp:
+      stabilizationWindowSeconds: {{ .stabilizationWindowSeconds }}
+      policies:
+      - type: Percent
+        value: {{ .value }}
+        periodSeconds: {{ .periodSeconds }}
     {{- end }}
 {{- end }}

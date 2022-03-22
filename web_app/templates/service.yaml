@@ -5,11 +5,14 @@ metadata:
   labels:
     {{- include "web_app.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.service.type }}
+  type: {{ .Values.ext_service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
+    - port: {{ .Values.ext_service.port }}
+      targetPort: {{ .Values.ext_service.targetPort }}
+      nodePort: {{ .Values.ext_service.nodePort }}
       protocol: TCP
       name: http
+  {{- with .Values.frontendLabels }}
   selector:
-    {{- include "web_app.selectorLabels" . | nindent 4 }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}

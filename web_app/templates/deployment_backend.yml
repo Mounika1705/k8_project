@@ -40,3 +40,15 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ .Values.db.secret }}
+          volumeMounts:
+            - name: {{ .Values.db.volume }}
+              mountPath: {{ .Values.db.mountPath }}
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ .Values.db.volume }}
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: "gp2"
+      resources:
+        requests:
+          storage: {{ .Values.db.storage }}

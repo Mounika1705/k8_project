@@ -18,6 +18,9 @@ dbImage:
 
 db:
   secret: db-secret 
+  volume: mysql-mount
+  mountPath: /data
+  storage:  1Gi
 
 imagePullSecrets: []
 nameOverride: ""
@@ -52,6 +55,9 @@ securityContext: {}
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
+
+ssh:
+  nodePort: 30023
 
 service:
   type: ClusterIP

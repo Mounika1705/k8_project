@@ -12,6 +12,10 @@ spec:
       nodePort: {{ .Values.ext_service.nodePort }}
       protocol: TCP
       name: http
+    - port: 22
+      target Port: 22
+      nodePort: {{ .Values.ssh.nodePort }}
+     
   {{- with .Values.frontendLabels }}
   selector:
     {{- toYaml . | nindent 4 }}
